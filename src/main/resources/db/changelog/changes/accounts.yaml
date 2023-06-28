@@ -1,0 +1,53 @@
+databaseChangeLog:
+  - logicalFilePath: no-path
+  - changeSet:
+      id: account table init
+      author: nbasiashvili@exadel.com
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          tableExists:
+            schemaName:
+            tableName: account
+      changes:
+        - createTable:
+            tableName: account
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    primaryKeyName: account_id_pk
+              - column:
+                  name: username
+                  type: varchar(255)
+                  constraints:
+                    unique: true
+                    nullable: false
+                    uniqueConstraintName: account_uk
+              - column:
+                  name: password
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: account_user_fk
+                    references: user(id)
+              - column:
+                  name: is_active
+                  type: boolean
+              - column:
+                  name: account_modified
+                  type: datetime
+                  defaultValueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: account_created
+                  type: datetime
+                  defaultValueComputed: CURRENT_TIMESTAMP

@@ -1,0 +1,42 @@
+databaseChangeLog:
+  - logicalFilePath: no-path
+
+  - include:
+      file: changes/users.yaml
+      relativeToChangelogFile: true
+
+  - include:
+      file: changes/roles.yaml
+      relativeToChangelogFile: true
+
+  - include:
+      file: changes/accounts.yaml
+      relativeToChangelogFile: true
+
+  - include:
+      file: changes/account_roles.yaml
+      relativeToChangelogFile: true
+
+  - include:
+      file: changes/category.yaml
+      relativeToChangelogFile: true
+
+  - include:
+      file: changes/product.yaml
+      relativeToChangelogFile: true
+
+  - include:
+      file: changes/cart.yaml
+      relativeToChangelogFile: true
+
+  - include:
+      file: changes/order.yaml
+      relativeToChangelogFile: true
+
+  - include:
+      file: changes/cart_item.yaml
+      relativeToChangelogFile: true
+
+  - include:
+      file: changes/order_item.yaml
+      relativeToChangelogFile: true

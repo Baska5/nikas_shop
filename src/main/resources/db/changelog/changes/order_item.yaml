@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - logicalFilePath: no-path
+  - changeSet:
+      id: order_item table init
+      author: nbasiashvili@exadel.com
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          tableExists:
+            schemaName:
+            tableName: order_item
+      changes:
+        - createTable:
+            tableName: order_item
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    primaryKeyName: order_item_id_pk
+              - column:
+                  name: order_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: order_fk
+                    references: order(id)
+              - column:
+                  name: product_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: order_product_fk
+                    references: product(id)
+              - column:
+                  name: quantity
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: order_item_modified
+                  type: datetime
+                  defaultValueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: order_item_created
+                  type: datetime
+                  defaultValueComputed: CURRENT_TIMESTAMP

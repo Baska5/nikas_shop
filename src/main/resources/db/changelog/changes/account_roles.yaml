@@ -1,0 +1,48 @@
+databaseChangeLog:
+  - logicalFilePath: no-path
+  - changeSet:
+      id: account_roles table init
+      author: nbasiashvili@exadel.com
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          tableExists:
+            schemaName:
+            tableName: account_role
+      changes:
+        - createTable:
+            tableName: account_role
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    primaryKeyName: account_role_id_pk
+              - column:
+                  name: account_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: account_role_account_fk
+                    references: account(id)
+              - column:
+                  name: role_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: account_role_role_fk
+                    references: role(id)
+              - column:
+                  name: is_active
+                  type: boolean
+              - column:
+                  name: account_role_modified
+                  type: datetime
+                  defaultValueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: account_role_created
+                  type: datetime
+                  defaultValueComputed: CURRENT_TIMESTAMP

@@ -1,0 +1,70 @@
+databaseChangeLog:
+  - logicalFilePath: no-path
+  - changeSet:
+      id: cart table init
+      author: nbasiashvili@exadel.com
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          tableExists:
+            schemaName:
+            tableName: cart
+      changes:
+        - createTable:
+            tableName: cart
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    primaryKeyName: cart_id_pk
+              - column:
+                  name: account_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: cart_account_fk
+                    references: account(id)
+              - column:
+                  name: product_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: cart_product_fk
+                    references: product(id)
+              - column:
+                  name: quantity
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: cart_modified
+                  type: datetime
+                  defaultValueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: cart_created
+                  type: datetime
+                  defaultValueComputed: CURRENT_TIMESTAMP
+
+  - changeSet:
+      id: drop product_id and quantity columns
+      author: nbasiashvili@exadel.com
+      changes:
+        - dropColumn:
+            columns:
+              - column:
+                  name: product_id
+            tableName: cart
+        - dropColumn:
+            columns:
+              - column:
+                  name: quantity
+            tableName: cart

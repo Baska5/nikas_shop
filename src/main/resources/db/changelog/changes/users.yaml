@@ -1,0 +1,48 @@
+databaseChangeLog:
+  - logicalFilePath: no-path
+  - changeSet:
+      id: user table init
+      author: nbasiashvili@exadel.com
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          tableExists:
+            schemaName:
+            tableName: user
+      changes:
+        - createTable:
+            tableName: user
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    primaryKeyName: user_id_pk
+              - column:
+                  name: first_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(255)
+                  constraints:
+                    unique: true
+                    nullable: false
+                    uniqueConstraintName: user_email_uk
+              - column:
+                  name: user_modified
+                  type: datetime
+                  defaultValueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: user_created
+                  type: datetime
+                  defaultValueComputed: CURRENT_TIMESTAMP

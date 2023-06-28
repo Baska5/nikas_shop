@@ -1,0 +1,55 @@
+databaseChangeLog:
+  - logicalFilePath: no-path
+  - changeSet:
+      id: product table init
+      author: nbasiashvili@exadel.com
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          tableExists:
+            schemaName:
+            tableName: product
+      changes:
+        - createTable:
+            tableName: product
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    primaryKeyName: product_id_pk
+              - column:
+                  name: category_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: product_category_fk
+                    references: category(id)
+              - column:
+                  name: product_name
+                  type: varchar(255)
+                  constraints:
+                    unique: true
+                    nullable: false
+                    uniqueConstraintName: product_name_uk
+              - column:
+                  name: product_desc
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: price
+                  type: decimal(12, 2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: product_modified
+                  type: datetime
+                  defaultValueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: product_created
+                  type: datetime
+                  defaultValueComputed: CURRENT_TIMESTAMP

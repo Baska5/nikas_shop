@@ -1,0 +1,43 @@
+databaseChangeLog:
+  - logicalFilePath: no-path
+  - changeSet:
+      id: category table init
+      author: nbasiashvili@exadel.com
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          tableExists:
+            schemaName:
+            tableName: category
+      changes:
+        - createTable:
+            tableName: category
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    primaryKeyName: category_id_pk
+              - column:
+                  name: category_name
+                  type: varchar(255)
+                  constraints:
+                    unique: true
+                    nullable: false
+                    uniqueConstraintName: category_name_uk
+              - column:
+                  name: category_desc
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: category_modified
+                  type: datetime
+                  defaultValueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: category_created
+                  type: datetime
+                  defaultValueComputed: CURRENT_TIMESTAMP

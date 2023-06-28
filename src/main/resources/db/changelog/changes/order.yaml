@@ -1,0 +1,63 @@
+databaseChangeLog:
+  - logicalFilePath: no-path
+  - changeSet:
+      id: order table init
+      author: nbasiashvili@exadel.com
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          tableExists:
+            schemaName:
+            tableName: order
+      changes:
+        - createTable:
+            tableName: order
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    primaryKeyName: order_id_pk
+              - column:
+                  name: cart_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: order_cart_fk
+                    references: cart(id)
+              - column:
+                  name: status
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: order_modified
+                  type: datetime
+                  defaultValueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: order_created
+                  type: datetime
+                  defaultValueComputed: CURRENT_TIMESTAMP
+
+  - changeSet:
+      id: drop cart_id and add account_id column
+      author: nbasiashvili@exadel.com
+      changes:
+        - dropColumn:
+            columns:
+              - column:
+                  name: cart_id
+            tableName: order
+        - addColumn:
+            tableName: order
+            columns:
+              - column:
+                  name: account_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: order_account_fk
+                    references: account(id)
